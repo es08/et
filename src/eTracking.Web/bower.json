@@ -1,0 +1,18 @@
+{
+  "name": "asp.net",
+  "private": true,
+  "dependencies": {
+    "bootstrap": "3.3.6",
+    "jquery-validation": "1.14.0",
+    "jquery-validation-unobtrusive": "3.2.6",
+    "font-awesome": "Font-Awesome#v4.7.0",
+    "knockout": "v3.4.2",
+    "jQuery": "2.2.4",
+    "jquery": "3.2.0",
+    "jquery-serialize-object": "2.5.0",
+    "moment": "^2.18.1"
+  },
+  "resolutions": {
+    "jquery": "2.2.4"
+  }
+}

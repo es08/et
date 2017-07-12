@@ -1,0 +1,228 @@
+﻿﻿﻿﻿﻿@{
+    ViewData["Title"] = "Projects";
+}
+
+<div class="ui container">
+    <div class="ui divided items" data-bind= "foreach: projects">
+	  
+	  <div class="item">
+	    <!--<div class="image">
+	      <i class="globe icon"></i>
+	    </div>-->
+	    <div class="content">
+	      <a class="header" data-bind="click: $parent.getProject.bind($data.id),text:name_EN"></a>
+	      <div class="meta">
+	        <span class="cinema" data-bind="text:name_TH"></span>
+	      </div>
+	      <div class="description">
+	        <p></p>
+	      </div>
+	      <div class="extra">
+	        <div class="ui right floated primary button" data-bind="click: $parent.getProject.bind($data.id)">
+	          View
+<!--			  <i class="right chevron icon"></i>-->
+	        </div>
+	        <div class="ui label" data-bind="text:status.name_EN"></div>
+	        <div class="ui label"><i class="globe icon"></i> Additional Languages</div>
+	        <div class="ui label">Limited</div>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+</div>
+
+
+<!-- view project-->
+<div id= "view-project" class="ui modal" data-bind="with:project">
+	<div class="html ui top attached segment">
+			<h4 class="ui horizontal divider header">
+		        <i class="tag icon"></i>
+                <!-- ko text:$data.name_EN -->
+			    <!-- /ko -->
+		    </h4>
+		    <p data-bind="text:name_TH"></p>
+			<h4 class="ui horizontal divider header">
+			  <i class="bar chart icon"></i>
+              Project Information
+			</h4>
+			<table class="ui definition table">
+			  <tbody>
+			    <tr>
+			      <td class="two wide column">Year</td>
+			      <td data-bind="text:year"></td>
+			    </tr>
+			    <tr>
+			      <td>Start date</td>
+			      <td data-bind="text: moment(startDate).format('YYYY MMM DD')"></td>
+			    </tr>
+			    <tr>
+			      <td>End date</td>
+                  <td data-bind="text: moment(endDate).format('YYYY MMM DD')"></td>
+                </tr>
+			    <tr>
+			      <td>Amount</td>
+                  <td data-bind="text:amount"></td>
+			    </tr>
+				<tr>
+                  <td>Used Amount</td>
+                  <td data-bind="text:usedAmount"></td>
+                </tr>
+				<tr>
+                  <td>Balance</td>
+                  <td data-bind="text:balance"></td>
+                </tr>
+			  </tbody>
+			</table>
+    		<h4 class="ui horizontal divider header">
+              <i class="bar chart icon"></i>
+              Activities
+            </h4>
+	</div>
+</div>
+
+<div class="ui modal">
+  <i class="close icon"></i>
+  <div class="header"></div>
+  <div class="image content">
+    <form class="ui form">
+  <h4 class="ui dividing header">Project Information</h4>
+  <div class="field">
+    <label>Project Name</label>
+    <div class="two fields">
+      <div class="field">
+        <input type="text" name="project[name]" placeholder="Projec Name">
+      </div>
+      <div class="field">
+        <input type="text" name="project[details]" placeholder="Project Details">
+      </div>
+    </div>
+  </div>
+  <div class="field">
+    <label>Start/End Date</label>
+    <div class="fields">
+      <div class="field">
+        <input type="date" name="project[start-date]" placeholder="Start Date">
+      </div>
+      <div class="field">
+        <input type="date" name="project[end-date]" placeholder="End Date">
+      </div>
+    </div>
+  </div>
+  <div class="field">
+    <label>Amount/Balance</label>
+    <div class="fields">
+      <div class="field">
+        <input type="number" min= 0 step="0.01" name="project[amount]" placeholder="Amount">
+      </div>
+	  <div class="field">
+        <input type="number" min= 0 step="0.01" name="project[used]" placeholder="Used Amount">
+      </div>
+      <div class="field">
+<!--        <input type="text" name="project[balance]" data-bind="value: $data.amount - $data.usedAmount" readonly="" placeholder="Balance">-->
+      </div>
+    </div>
+  </div>
+  <div class="field">
+      <label>By</label>
+					
+		  <select class="ui fluid dropdown search multiple"  multiple="" data-bind="foreach: $root.staff">
+				<option value="">Select staff</option>
+				<option data-bind="text: $data.name_EN, value: $data.id"></option>
+		  </select>
+  </div>
+  
+  
+   <div class="ui segment">
+    <div class="field">
+      <div class="ui toggle checkbox">
+        <input type="checkbox" name="gift" tabindex="0" class="hidden">
+        <label>Do not include a receipt in the package</label>
+      </div>
+    </div>
+  </div>
+  <div class="ui button" tabindex="0">Submit Order</div>
+</form>
+</div>
+  
+  <div class="actions">
+    <div class="ui teal approve right labeled icon button">
+      Edit
+	  <i class="write icon"></i>
+    </div>
+    <div class="ui red deny right labeled icon button">
+      Delete
+      <i class="checkmark icon"></i>
+    </div>
+  </div>
+
+<!--<table id="project-list" class="ui celled padded table">
+  <thead>
+    <tr><th class="single line">Project</th>
+    <th>Amount/Balance</th>
+    <th>Year</th>
+    <th>Start/End Date</th>
+	<th>Status</th>
+    <th>By</th>
+  </tr></thead>
+  <tbody  data-bind= "foreach: projects">
+    <tr>
+      <td>
+        <span class="ui center aligned header" data-bind='attr: { "data-content": name_TH},text: name_EN'></span>
+      </td>
+      <td class="single line">
+		<span data-bind ="text:amount + '/' + balance"></span>
+      </td>
+      <td>
+        <span data-bind = "text:year"></span>
+        <div class="ui star rating" data-rating="3" data-max-rating="3"></div>
+      </td>
+      <td class="right aligned">
+        <span data-bind="text:startDate + '/' + endDate"></span> <br>
+        <a href="#">18 studies</a>
+      </td>
+	  <td class="right aligned">
+        <span data-bind="text:status.name_EN"></span> <br>
+        <a href="#">18 studies</a>
+      </td>
+      <td>
+			<ul data-bind= "foreach: projectStaffs">
+					<li data-bind= "text:staff.name_EN"></li>
+			</ul>	
+	  </td>
+    </tr>
+  </tbody>
+</table>-->
+
+@section Scripts {
+
+    <script>
+    function viewModel(){
+        var self = this;
+        self.projects = ko.observableArray([]);
+        self.project = ko.observable();
+    	self.staff = ko.observableArray([]);
+
+        self.getProject = function(data){
+	        self.getStaff();
+            $.getJSON("/api/projectapi/" + data.id , function (data) {
+                self.project(data);
+			    $('#view-project').modal('show');
+	            $('.ui .dropdown').dropdown()
+            });
+        };
+	    self.getStaff = function(){
+             $.getJSON("/api/staffapi", function (data) {
+                self.staff(data);
+            });
+	     };
+
+        $.getJSON("/api/projectapi", function (data) {
+            self.projects(data);
+        });
+    };
+        
+    ko.applyBindings(new viewModel());
+    </script>
+}
+
+    

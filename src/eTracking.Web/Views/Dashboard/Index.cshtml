@@ -1,0 +1,59 @@
+﻿@{
+    ViewData["Title"] = "Dashboard";
+}
+@section Scripts {
+
+    <script>
+    var viewModel = function(){
+        var self = this;
+        self.projects = ko.observableArray([]);
+        self.project = ko.observable();
+
+        self.getProject = function(id){
+            $.getJSON("/api/projectapi/" + id , function (data) {
+            self.project(data);
+        });
+        };
+
+        $.getJSON("/api/projectapi", function (data) {
+            self.projects(data);
+        });
+    };
+        
+    ko.applyBindings(new viewModel());
+    </script>
+
+
+   <script>
+    var data = {
+        labels: ['Not Started', 'In Progress', 'Completed'],
+        series: [20, 15, 40],
+		total: 100,
+	    showLabel: true
+    };
+
+	var options = {
+	  labelInterpolationFnc: function(value) {
+	    return value[0]
+	  }
+	};
+
+	var responsiveOptions = [
+	  ['screen and (min-width: 640px)', {
+	    chartPadding: 30,
+	    labelOffset: 100,
+	    labelDirection: 'explode',
+	    labelInterpolationFnc: function(value) {
+	      return value;
+	    }
+	  }],
+	  ['screen and (min-width: 1024px)', {
+	    labelOffset: 80,
+	    chartPadding: 20
+	  }]
+	];
+	new Chartist.Pie('.ct-chart', data, options, responsiveOptions);
+    </script>
+}
+
+<div class="ct-chart ct-perfect-fourth"></div>
